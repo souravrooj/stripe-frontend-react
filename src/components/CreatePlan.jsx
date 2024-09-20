@@ -7,7 +7,7 @@ const CreatePlan = () => {
     const [amount, setAmount] = useState('');
     const [interval, setInterval] = useState('month');
     const [message, setMessage] = useState('');
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
