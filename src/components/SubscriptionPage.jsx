@@ -2,28 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 
+// Ensure the correct Stripe public key
 const stripePromise = loadStripe('pk_test_51Q16b4AP8Blv4RX0JKUBAE3RZTGkkUkkIZgYB7LDb4hPVnzDlJDIEHaplQBdrzGYICqFLHSJnAAo0vyt9qcPXvZF008fmYLkDM');
 
 const SubscriptionPage = () => {
     const [plans, setPlans] = useState([]);
     const [email, setEmail] = useState('');
     const [selectedPlan, setSelectedPlan] = useState(null);
-    
-    const apiUrl = import.meta.env.VITE_BACKEND_URL;
+
+    // Ensure the correct backend URL is set
+    const apiUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'; // Fallback to localhost
 
     useEffect(() => {
         const fetchPlans = async () => {
             try {
-                const response = await fetch(`${apiUrl}/api/plans`); // Your API endpoint
-                const data = await response.json();
-                setPlans(data);
+                const response = await axios.get(`${apiUrl}/api/plans`);
+                setPlans(response.data);
             } catch (error) {
                 console.error('Error fetching plans:', error);
             }
         };
 
         fetchPlans();
-    }, []);
+    }, [apiUrl]);
 
     const handleSubscription = async (e) => {
         e.preventDefault();
@@ -37,6 +38,7 @@ const SubscriptionPage = () => {
                 customerEmail: email
             });
 
+            // Redirect to checkout
             const result = await stripe.redirectToCheckout({ sessionId: session.id });
 
             if (result.error) {

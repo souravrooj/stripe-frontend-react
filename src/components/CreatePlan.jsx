@@ -5,7 +5,7 @@ const CreatePlan = () => {
     const [productName, setProductName] = useState('');
     const [planName, setPlanName] = useState('');
     const [amount, setAmount] = useState('');
-    const [interval, setInterval] = useState('month');
+    const [interval, setInterval] = useState('month'); // Default to month
     const [message, setMessage] = useState('');
     const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -66,6 +66,7 @@ const CreatePlan = () => {
                         onChange={(e) => setInterval(e.target.value)}
                         className="w-full px-4 py-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
+                        <option value="day">Daily</option>
                         <option value="month">Monthly</option>
                         <option value="year">Yearly</option>
                     </select>
